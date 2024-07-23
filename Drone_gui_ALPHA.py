@@ -22,24 +22,19 @@ def screen_capture():
  model = torch.hub.load('C:\Yolov7_instance_segmentation\yolov5', 'custom',
                         path='C:\Yolov7_instance_segmentation\yolov5\yolov5s.pt', source='local')
  while True:
-    # Take a screenshot
+    
     screen = pyautogui.screenshot()
-    # Convert the output to a numpy array
     screen_array = np.array(screen)
-    # Crop out the region we want - height, width, channels
     cropped_region = screen_array[0:830, 0:1420, :]
-    # Convert the color channel order
     corrected_colors = cv2.cvtColor(cropped_region, cv2.COLOR_RGB2BGR)
 
-    # Make detections
     results = model(corrected_colors)
 
     cv2.imshow('YOLO', np.squeeze(results.render()))
 
-    # Cv2.waitkey
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
-# Close down the frame
+     
  cv2.destroyAllWindows()
 
 def get_vehicle_info(vehicle):
@@ -141,6 +136,8 @@ connection_string = args.connect
 print('connection string = %s'%connection_string)
 vehicle = connect(connection_string, wait_ready=True)
 
+
+#ALTERNATIVE METHODS TO CONNECT TO PIXHAWK
 '''
 sitl = dronekit_sitl.start_default()
 connection_string = sitl.connection_string()
